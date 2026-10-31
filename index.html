@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
+      background: radial-gradient(circle at top, #ffdde8, #ffe9f2, #ffd1dc, #17001f);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .font-love { font-family: 'Pacifico', cursive; }
+
+    /* --- FLOATING STARS & CARTOONS STYLING --- */
+    .floating-item {
+      position: fixed;
+      bottom: -50px;
+      animation: floatUp linear infinite;
+      z-index: 1;
+      pointer-events: none;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 0; }
+      15% { opacity: 1; }
+      100% { transform: translateY(-115vh) rotate(360deg) scale(1.4); opacity: 0; }
+    }
+
+    /* --- SPECIAL DORAEMON FLOATING ANIMATION --- */
+    .doraemon-item {
+      position: fixed;
+      bottom: -60px;
+      font-weight: 800;
+      font-family: 'Pacifico', cursive;
+      color: #008cff;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px #00a2ff;
+      animation: floatDoraemon 4s linear infinite;
+      z-index: 5;
+      pointer-events: none;
+    }
+    @keyframes floatDoraemon {
+      0% { transform: translateY(0) rotate(-5deg) scale(0.8); opacity: 0; }
+      20% { opacity: 1; }
+      100% { transform: translateY(-115vh) rotate(10deg) scale(1.3); opacity: 0; }
+    }
+
+    .sparkle {
+      position: fixed;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: white;
+      box-shadow: 0 0 15px white;
+      animation: sparkle 2s infinite ease-in-out;
+      z-index: 2;
+      pointer-events: none;
+    }
+    @keyframes sparkle {
+      0%, 100% { transform: scale(0); opacity: 0; }
+      50% { transform: scale(1.3); opacity: 1; }
+    }
+
+    .step {
+      display: none;
+      animation: popIn .8s ease forwards;
+      width: 100%;
+    }
+    .step.active { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    @keyframes popIn {
+      from { opacity: 0; transform: translateY(35px) scale(.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .glass {
+      background: rgba(255, 255, 255, 0.22);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      box-shadow: 0 25px 60px rgba(121, 0, 65, 0.28);
+    }
+
+    .gift-box {
+      width: 130px;
+      height: 100px;
+      background: linear-gradient(135deg, #ff3f8f, #ff8fb8);
+      border-radius: 18px;
+      position: relative;
+      margin: 0 auto;
+      animation: bounceGift 1.5s infinite;
+      cursor: pointer;
+      box-shadow: 0 20px 45px rgba(255, 45, 130, .45);
+    }
+    .gift-box::before {
+      content: '';
+      position: absolute;
+      width: 24px;
+      height: 100px;
+      background: #fff4b8;
+      left: 53px;
+      top: 0;
+    }
+    .gift-box::after {
+      content: '';
+      position: absolute;
+      width: 150px;
+      height: 24px;
+      background: #fff4b8;
+      left: -10px;
+      top: 38px;
+    }
+    .gift-lid {
+      width: 155px;
+      height: 34px;
+      background: linear-gradient(135deg, #ff1f7a, #ff72aa);
+      border-radius: 16px;
+      position: absolute;
+      top: -30px;
+      left: -12px;
+      transition: .5s ease;
+    }
+    .gift-box.open .gift-lid {
+      transform: rotate(-25deg) translate(-30px, -40px);
+    }
+    @keyframes bounceGift {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* --- BALLOONS STYLING --- */
+    .balloon {
+      position: absolute;
+      width: 45px;
+      height: 60px;
+      border-radius: 50% 50% 45% 45%;
+      animation: balloonFloat 4s ease-in-out infinite;
+      z-index: 0;
+    }
+    .balloon::after {
+      content: '';
+      position: absolute;
+      width: 2px;
+      height: 60px;
+      background: rgba(255,255,255,.6);
+      left: 50%;
+      top: 58px;
+    }
+    @keyframes balloonFloat {
+      0%,100% { transform: translateY(0) rotate(-3deg); }
+      50% { transform: translateY(-15px) rotate(4deg); }
+    }
+
+    .cake {
+      position: relative;
+      width: 180px;
+      height: 120px;
+      margin: 0 auto;
+    }
+    .cake-base {
+      position: absolute;
+      bottom: 0;
+      width: 180px;
+      height: 75px;
+      background: linear-gradient(180deg, #ff78ad, #ff2f86);
+      border-radius: 15px 15px 25px 25px;
+      box-shadow: 0 15px 30px rgba(255, 47, 134, .38);
+    }
+    .cake-top {
+      position: absolute;
+      bottom: 60px;
+      width: 180px;
+      height: 35px;
+      background: #fff7fb;
+      border-radius: 50%;
+    }
+    .candle {
+      position: absolute;
+      bottom: 90px;
+      left: 81px;
+      width: 16px;
+      height: 40px;
+      background: repeating-linear-gradient(45deg, #fff, #fff 5px, #ff4d94 5px, #ff4d94 10px);
+      border-radius: 6px;
+    }
+    .flame {
+      position: absolute;
+      bottom: 126px;
+      left: 79px;
+      width: 18px;
+      height: 26px;
+      background: radial-gradient(circle, #fff7a1 20%, #ffb300 60%, #ff4d00 100%);
+      border-radius: 50%;
+      animation: flame .25s infinite alternate;
+      transform-origin: bottom;
+    }
+    @keyframes flame {
+      from { transform: scale(1) rotate(-3deg); }
+      to { transform: scale(1.15) rotate(3deg); }
+    }
+
+    .confetti {
+      position: fixed;
+      top: -20px;
+      width: 10px;
+      height: 16px;
+      animation: confettiFall 3s linear forwards;
+      z-index: 40;
+    }
+    @keyframes confettiFall {
+      to { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+
+    .shake { animation: shake .45s ease; }
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      25% { transform: translateX(-8px); }
+      75% { transform: translateX(8px); }
+    }
+
+    /* Mobile pe Balloons ko thoda chota ya adjust karne ke liye */
+    @media (max-width: 640px) {
+      .balloon { width: 35px; height: 48px; }
+    }
+  </style>
+</head>
+<body class="p-4 text-black relative">
+  
+  <!-- Left Side Balloons (Responsive Positioning) -->
+  <div class="balloon bg-pink-400 left-3 sm:left-12 top-6 rotate-[-10deg]"></div>
+  <div class="balloon bg-purple-400 left-2 sm:left-4 top-20 rotate-[12deg]" style="animation-delay: 1s;"></div>
+  <div class="balloon bg-yellow-300 left-4 sm:left-16 top-36 rotate-[-5deg]" style="animation-delay: 2s;"></div>
+
+  <!-- Right Side Balloons (Responsive Positioning) -->
+  <div class="balloon bg-red-400 right-3 sm:right-12 top-6 rotate-[10deg]" style="animation-delay: 0.5s;"></div>
+  <div class="balloon bg-blue-400 right-2 sm:right-4 top-20 rotate-[-12deg]" style="animation-delay: 1.5s;"></div>
+  <div class="balloon bg-green-400 right-4 sm:right-16 top-36 rotate-[5deg]" style="animation-delay: 2.5s;"></div>
+
+  <!-- Floating Music Button (Fixed Top-Right for Mobile & Desktop friendliness) -->
+  <button onclick="toggleMusic()" id="playBtn" class="fixed top-3 right-3 z-50 bg-white/80 backdrop-blur-md text-pink-600 px-3 py-2 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-bold shadow-lg hover:bg-white transition">
+    🎂 Play Song
+  </button>
+
+  <main class="relative z-10 w-full max-w-xl sm:max-w-2xl mx-auto my-auto">
+    <div class="glass rounded-[1.5rem] sm:rounded-[2rem] p-5 sm:p-10 text-center min-h-[480px] sm:min-h-[520px] flex items-center justify-center">
+      
+      <!-- Step 0 -->
+      <section class="step active w-full" data-step="0">
+        <p class="uppercase tracking-[.25em] sm:tracking-[.35em] text-xs sm:text-sm text-black mb-3">A tiny surprise for you</p>
+        <h1 class="font-love text-4xl sm:text-6xl text-black drop-shadow-lg mb-4 sm:mb-6">Happy Birthday</h1>
+        <p class="text-sm sm:text-lg text-black/90 max-w-md mx-auto mb-6 sm:mb-8 px-2">
+          baar baar dil ye gaaye baar baar dil ye gaay tum jio hajaro saal ye meri hai aarju Happy Birthday to youu Happy Birthday to you
+        </p>
+        <button onclick="nextStep()" class="bg-white text-pink-600 px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold text-sm sm:text-base shadow-xl hover:scale-105 active:scale-95 transition">Surprise</button>
+      </section>
+
+      <!-- Step 1: Game -->
+      <section class="step w-full" data-step="1">
+        <h2 class="font-love text-3xl sm:text-5xl mb-3">Lets Play Some Game</h2>
+        <p class="mb-4 text-sm sm:text-base text-black/90 px-2">Click the 🎂 floating 5 times to unlock your birthday wish.</p>
+        <div class="relative w-full h-60 sm:h-72 rounded-2xl sm:rounded-3xl bg-white/15 overflow-hidden border border-white/20" id="heartGame">
+          <button id="catchHeart" class="absolute text-4xl sm:text-5xl hover:scale-125 transition p-2">🎂</button>
+          <div class="absolute left-3 top-3 bg-white/25 px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold">Caught: <span id="score">0</span>/5</div>
+        </div>
+      </section>
+
+      <!-- Step 2: Gift -->
+      <section class="step w-full" data-step="2">
+        <h2 class="font-love text-3xl sm:text-5xl mb-4 uppercase">Gift Yahan Hai</h2>
+        <p class="mb-6 text-sm sm:text-base text-black/90">Open the Gift.</p>
+        <div class="gift-box" onclick="openGift(this)">
+          <div class="gift-lid"></div>
+        </div>
+        <p id="giftMessage" class="hidden mt-6 sm:mt-8 text-lg sm:text-2xl font-semibold text-black px-2">Inside this gift there is the best wish for you ✨</p>
+      </section>
+
+      <!-- Step 3: Cake & Candle -->
+      <section class="step w-full" data-step="3">
+        <div class="cake mb-6 sm:mb-8">
+          <div class="flame" id="flame"></div>
+          <div class="candle"></div>
+          <div class="cake-top"></div>
+          <div class="cake-base"></div>
+        </div>
+        <p class="mb-4 text-sm sm:text-base text-black/90">Click the candle flame to blow it out.</p>
+        <button onclick="blowCandle()" class="bg-pink-600 hover:bg-pink-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold text-sm sm:text-base shadow-xl transition">Blow Candle 🕯️</button>
+      </section>
+
+      <!-- Step 4: Final Wish -->
+      <section class="step w-full" data-step="4">
+        <h2 class="font-love text-4xl sm:text-6xl mb-4">Happy Birthday 🎂</h2>
+        <div class="max-w-md mx-auto text-left bg-white/20 rounded-2xl sm:rounded-3xl p-5 border border-white/25">
+          <p class="text-sm sm:text-base leading-6 sm:leading-7 text-black/95 font-medium">Congrats! 🎉</p>
+          <p class="text-sm sm:text-base leading-6 sm:leading-7 text-black/95 mt-2">Wishing you a wonderful and joyful birthday filled with happiness and success! Have a great year ahead!</p>
+        </div>
+        <button onclick="restartWish()" class="mt-6 bg-white text-pink-600 px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold text-sm sm:text-base shadow-xl hover:scale-105 active:scale-95 transition">Magic ✨</button>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Copyright-Free Birthday Song Audio File -->
+  <audio id="birthdayMusic" loop>
+      <source src="aapka_free_birthday_song.mp3" type="audio/mpeg">
+      Aapka browser audio support nahi karta.
+  </audio>
+
+  <script>
+    var music = document.getElementById("birthdayMusic");
+    var btn = document.getElementById("playBtn");
+
+    function toggleMusic() {
+        if (music.paused) {
+            music.play();
+            btn.innerHTML = "⏸️ Pause";
+        } else {
+            music.pause();
+            btn.innerHTML = "🎂 Play Song";
+        }
+    }
+        
+    let currentStep = 0;
+    let score = 0;
+    let doraemonInterval = null;
+    const steps = document.querySelectorAll('.step');
+    const catchHeart = document.getElementById('catchHeart');
+    const heartGame = document.getElementById('heartGame');
+    const scoreEl = document.getElementById('score');
+
+    function showStep(index) {
+      steps.forEach(step => step.classList.remove('active'));
+      steps[index].classList.add('active');
+      currentStep = index;
+      
+      if (index === 3) {
+        startDoraemon();
+      } else {
+        stopDoraemon();
+      }
+
+      if (index === 1) moveHeart();
+      if (index === 4) launchConfetti();
+    }
+
+    function nextStep() {
+      showStep(currentStep + 1);
+    }
+
+    function createFloatingItems() {
+      setInterval(() => {
+        const item = document.createElement('div');
+        item.className = 'floating-item';
+        
+        const itemsList = ['⭐', '🌟', '✨', '💫', '🤡', '🐒', '🐥', '🦄', '🐼', '🤖'];
+        item.innerHTML = itemsList[Math.floor(Math.random() * itemsList.length)];
+        
+        item.style.left = Math.random() * 100 + 'vw';
+        item.style.fontSize = (18 + Math.random() * 20) + 'px';
+        item.style.animationDuration = (4 + Math.random() * 4) + 's';
+        document.body.appendChild(item);
+        setTimeout(() => item.remove(), 8000);
+      }, 500);
+    }
+
+    function startDoraemon() {
+      if (doraemonInterval) return;
+      doraemonInterval = setInterval(() => {
+        const dora = document.createElement('div');
+        dora.className = 'doraemon-item';
+        dora.innerHTML = '🤖 Doraemon';
+        dora.style.left = Math.random() * 80 + 'vw';
+        dora.style.fontSize = (20 + Math.random() * 10) + 'px';
+        dora.style.animationDuration = (3.5 + Math.random() * 2) + 's';
+        document.body.appendChild(dora);
+        setTimeout(() => dora.remove(), 5500);
+      }, 700);
+    }
+
+    function stopDoraemon() {
+      clearInterval(doraemonInterval);
+      doraemonInterval = null;
+      document.querySelectorAll('.doraemon-item').forEach(el => el.remove());
+    }
+
+    function createSparkles() {
+      for (let i = 0; i < 25; i++) {
+        const sp = document.createElement('div');
+        sp.className = 'sparkle';
+        sp.style.left = Math.random() * 100 + 'vw';
+        sp.style.top = Math.random() * 100 + 'vh';
+        sp.style.animationDelay = Math.random() * 3 + 's';
+        document.body.appendChild(sp);
+      }
+    }
+
+    function moveHeart() {
+      const maxX = heartGame.clientWidth - 60;
+      const maxY = heartGame.clientHeight - 60;
+      catchHeart.style.left = Math.max(10, Math.random() * maxX) + 'px';
+      catchHeart.style.top = Math.max(10, Math.random() * maxY) + 'px';
+    }
+
+    catchHeart.addEventListener('click', () => {
+      score++;
+      scoreEl.textContent = score;
+      catchHeart.classList.add('shake');
+      setTimeout(() => catchHeart.classList.remove('shake'), 450);
+      if (score >= 5) {
+        setTimeout(() => showStep(2), 500);
+      } else {
+        moveHeart();
+      }
+    });
+
+    function openGift(box) {
+      box.classList.add('open');
+      document.getElementById('giftMessage').classList.remove('hidden');
+      launchConfetti(40);
+      setTimeout(() => showStep(3), 2500);
+    }
+
+    function blowCandle() {
+      document.getElementById('flame').style.display = 'none';
+      stopDoraemon();
+      launchConfetti(90);
+      setTimeout(() => showStep(4), 1200);
+    }
+
+    function launchConfetti(amount = 80) {
+      const colors = ['#ff4d94', '#fff176', '#7c4dff', '#00e5ff', '#ffffff', '#ff1744'];
+      for (let i = 1; i <= amount; i++) {
+        const c = document.createElement('div');
+        c.className = 'confetti';
+        c.style.left = Math.random() * 100 + 'vw';
+        c.style.background = colors[Math.floor(Math.random() * colors.length)];
+        c.style.animationDelay = Math.random() * 1.2 + 's';
+        c.style.animationDuration = (2 + Math.random() * 2.5) + 's';
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 4500);
+      }
+    }
+
+    function restartWish() {
+      score = 0;
+      scoreEl.textContent = '0';
+      document.getElementById('flame').style.display = 'block';
+      document.getElementById('giftMessage').classList.add('hidden');
+      document.querySelector('.gift-box').classList.remove('open');
+      showStep(0);
+    }
+
+    createFloatingItems();
+    createSparkles();
+  </script>
+</body>
+</html>
